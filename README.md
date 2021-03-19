@@ -1,2 +1,2 @@
 # tempbracelet
-temperaturnyy braslet
+temperature bracelet
