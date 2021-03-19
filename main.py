@@ -6,6 +6,7 @@ server for braslet_tmp
 
 '''
 
+import os
 from flask import Flask
 from flask import request
 from flask import render_template
@@ -22,11 +23,23 @@ from datetime import datetime, timezone
 from werkzeug.security import generate_password_hash, check_password_hash
 
 app = Flask(__name__)
-app.config.from_pyfile('settings.cfg') #, silent=True)
+SECRET_KEY = os.environ.get("SECRET_KEY")
+app.config['SECRET_KEY'] = SECRET_KEY
+SQLALCHEMY_DATABASE_URI = os.environ.get("SQLALCHEMY_DATABASE_URI")
+app.config['SQLALCHEMY_DATABASE_URI'] = SQLALCHEMY_DATABASE_URI
+TEMPERATURE_THRESHOLD = os.environ.get("TEMPERATURE_THRESHOLD")
+app.config['TEMPERATURE_THRESHOLD'] = TEMPERATURE_THRESHOLD
+INIT_KEY = os.environ.get("INIT_KEY")
+app.config['INIT_KEY'] = INIT_KEY
+DEBUG = os.environ.get("DEBUG")
+app.config['DEBUG'] = DEBUG
+TESTING = os.environ.get("TESTING")
+app.config['TESTING'] = TESTING
+
+#app.config.from_pyfile('settings.cfg')
 db = SQLAlchemy(app)
 
-TEMPERATURE_THRESHOLD = app.config['TEMPERATURE_THRESHOLD']
-INIT_KEY = app.config['INIT_KEY']
+#print(app.config)
 
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True) # primary keys are required by SQLAlchemy
