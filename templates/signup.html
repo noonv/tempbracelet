@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% set active_page = "signup" %}
+{% block title %}TempBracelet - Регистрация{% endblock %}
+
+{% block content %}
+<div
+          class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+<form method="POST" action="/signup">
+    <h1 class="h3 mb-3 fw-normal">Регистрация</h1>
+    <label for="email" class="visually-hidden">Email address</label>
+    <input type="email" id="email" type="email" name="email" class="form-control" placeholder="e-mail" required autofocus>
+    <label for="name" class="visually-hidden">Name</label>
+    <input type="text" id="name" name="name" class="form-control" placeholder="имя" required>
+    <label for="password" class="visually-hidden">Password</label>
+    <input type="password" id="password" type="password" name="password" class="form-control" placeholder="пароль" required>
+    <button class="w-100 btn btn-lg btn-primary" type="submit">Зарегистрировать</button>
+    {% with messages = get_flashed_messages() %}
+       {% if messages %}
+           <p class="mt-5 mb-3 text-muted">
+        {{ messages[0] }}. <a href="{{ url_for('login') }}">Войти</a>.
+           </p>
+       {% endif %}
+    {% endwith %}
+
+  </form>
+</div>
+{% endblock %}

@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+{% set active_page = "index" %}
+{% block title %}TempBracelet - Контроль температуры{% endblock %} 
+
+{% block content %}
+{% if current_user.is_authenticated %}
+       <div
+          class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+          <h1 class="h2">Контроль температуры</h1>
+          <!--
+          <div class="btn-toolbar mb-2 mb-md-0">
+            <div class="btn-group me-2">
+              <button type="button" class="btn btn-sm btn-outline-secondary">Share</button>
+              <button type="button" class="btn btn-sm btn-outline-secondary">Export</button>
+            </div>
+            <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle">
+              <span data-feather="calendar"></span>
+              This week
+            </button>
+          </div>
+          -->
+        </div>
+
+        <div id="tempGraph" class="my-4 w-100" width="900" height="380"></div>
+
+        <h2>Пользователи</h2>
+        <div class="table-responsive">
+          <table class="table table-striped table-sm" id="usersTable">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Имя</th>
+                <th>Класс</th>
+                <th>email</th>
+                <th>Температура</th>
+                <th>Время</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>1</td>
+                <td>1</td>
+                <td>1</td>
+                <td>1</td>
+                <td>1</td>
+                <td>1</td>
+              </tr>
+              <tr>
+                <td>2</td>
+                <td>2</td>
+                <td>2</td>
+                <td>2</td>
+                <td>2</td>
+                <td>2</td>
+              </tr>
+              <tr>
+                <td>3</td>
+                <td>3</td>
+                <td>3</td>
+                <td>3</td>
+                <td>3</td>
+                <td>3</td>
+              </tr>
+            </tbody>
+          </table>
+{% else %}
+<div
+          class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+          <h1 class="h2">Система контроля температуры</h1>
+</div>
+          Для получения доступа к данным необходимо <a href="{{ url_for('login') }}">войти</a>.
+{% endif %}
+{% endblock %}
+
+{% block scripts %}
+{% if current_user.is_authenticated %}
+  <script type="text/javascript">
+    {% if TEMPERATURE_THRESHOLD %}
+    // get param from back
+    const TEMPERATURE_THRESHOLD = {{ TEMPERATURE_THRESHOLD }};
+    {% else %}
+    const TEMPERATURE_THRESHOLD = 30;
+    {% endif %}
+  </script>
+
+  <script src="{{ url_for('static', filename='js/braslet.js') }}"></script>
+{% endif %}
+{% endblock %}

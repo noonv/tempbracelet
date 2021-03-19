@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% set active_page = "profile" %}
+{% block title %}TempBracelet - Профиль{% endblock %}
+
+{% block content %}
+{% if current_user.is_authenticated %}
+<div
+          class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+<form method="POST" action="/profile">
+   <h1 class="title"> Профиль {{ name }}</h1>
+    <label for="email">Email</label>
+    <input type="email" id="email" type="email" name="email" class="form-control" placeholder="e-mail" required autofocus value="{{ email }}">
+    <label for="name">Имя</label>
+    <input type="text" id="name" name="name" class="form-control" placeholder="имя" required value="{{ name }}">
+    <label for="user_class">Класс</label>
+    <input type="text" id="user_class" type="text" name="user_class" class="form-control" placeholder="класс" value="{{ user_class }}">
+    <label for="bracelet_id">ID браслета</label>
+    <input type="text" id="bracelet_id" type="text" name="bracelet_id" class="form-control" placeholder="номер браслета" value="{{ bracelet_id }}">
+    <label for="bracelet_code">Код браслета</label>
+    <input type="text" id="bracelet_code" type="text" name="bracelet_code" class="form-control" placeholder="код браслета" value="{{ bracelet_code }}">
+    <label for="password">Пароль</label>
+    <input type="password" id="password" type="password" name="password" class="form-control" placeholder="пароль" required>
+    <button class="w-100 btn btn-lg btn-primary" type="submit">Изменить</button>
+    {% with messages = get_flashed_messages() %}
+       {% if messages %}
+           <p class="mt-5 mb-3 text-muted">
+        {{ messages[0] }}.
+           </p>
+       {% endif %}
+    {% endwith %}
+
+  </form>
+
+</div>
+{% endif %}
+{% endblock %}

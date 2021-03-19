@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% set active_page = "login" %}
+{% block title %}TempBracelet - Войти{% endblock %}
+
+{% block content %}
+<div
+          class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+  <form method="POST" action="/login">
+    <h1 class="h3 mb-3 fw-normal">Вход</h1>
+    <label for="email" class="visually-hidden">Email address</label>
+    <input type="email" id="email" name="email" class="form-control" placeholder="e-mail" required autofocus>
+    <label for="password" class="visually-hidden">Password</label>
+    <input type="password" id="password" name="password" class="form-control" placeholder="пароль" required>
+    <div class="checkbox mb-3">
+      <label>
+        <input type="checkbox" name="remember" value="remember"> Запомнить меня
+      </label>
+    </div>
+    <button class="w-100 btn btn-lg btn-primary" type="submit">Войти</button>
+    {% with messages = get_flashed_messages() %}
+       {% if messages %}
+           <p class="mt-5 mb-3 text-muted">
+        {{ messages[0] }}.
+           </p>
+       {% endif %}
+    {% endwith %}
+  </form>
+</div>
+{% endblock %}
+

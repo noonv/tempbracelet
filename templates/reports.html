@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% set active_page = "reports" %}
+{% block title %}TempBracelet - Отчеты{% endblock %}
+
+{% block content %}
+<h1>Отчеты</h2>
+
+{% endblock %}
+
+{% block scripts %}
+        {% if current_user.is_authenticated %}
+        <script type="text/javascript">
+            {% if TEMPERATURE_THRESHOLD %}
+            // get param from back
+            const TEMPERATURE_THRESHOLD = {{ TEMPERATURE_THRESHOLD }};
+            {% else %}
+            const TEMPERATURE_THRESHOLD = 30;
+            {% endif %}
+        </script>
+
+        {% endif %}
+{% endblock %}
