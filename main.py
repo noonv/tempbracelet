@@ -25,16 +25,24 @@ from werkzeug.security import generate_password_hash, check_password_hash
 app = Flask(__name__)
 SECRET_KEY = os.environ.get("SECRET_KEY")
 app.config['SECRET_KEY'] = SECRET_KEY
-SQLALCHEMY_DATABASE_URI = os.environ.get("SQLALCHEMY_DATABASE_URI")
-app.config['SQLALCHEMY_DATABASE_URI'] = SQLALCHEMY_DATABASE_URI
-TEMPERATURE_THRESHOLD = os.environ.get("TEMPERATURE_THRESHOLD")
-app.config['TEMPERATURE_THRESHOLD'] = TEMPERATURE_THRESHOLD
-INIT_KEY = os.environ.get("INIT_KEY")
-app.config['INIT_KEY'] = INIT_KEY
 DEBUG = os.environ.get("DEBUG")
 app.config['DEBUG'] = DEBUG
 TESTING = os.environ.get("TESTING")
 app.config['TESTING'] = TESTING
+SQLALCHEMY_DATABASE_URI = os.environ.get("SQLALCHEMY_DATABASE_URI")
+app.config['SQLALCHEMY_DATABASE_URI'] = SQLALCHEMY_DATABASE_URI
+
+TEMPERATURE_THRESHOLD = float(os.environ.get("TEMPERATURE_THRESHOLD"))
+app.config['TEMPERATURE_THRESHOLD'] = TEMPERATURE_THRESHOLD
+INIT_KEY = os.environ.get("INIT_KEY")
+app.config['INIT_KEY'] = INIT_KEY
+
+INIT_USER_NAME = os.environ.get("INIT_USER_NAME")
+INIT_USER_EMAIL = os.environ.get("INIT_USER_EMAIL")
+INIT_USER_PASSWORD = os.environ.get("INIT_USER_PASSWORD")
+INIT_USER_CLASS = os.environ.get("INIT_USER_CLASS")
+INIT_USER_BRID = int(os.environ.get("INIT_USER_BRID"))
+INIT_USER_BRCODE = os.environ.get("INIT_USER_BRCODE")
 
 #app.config.from_pyfile('settings.cfg')
 db = SQLAlchemy(app)
@@ -221,7 +229,7 @@ def init():
     db.drop_all()
     db.create_all()
 
-    db.session.add(User(name="Иванов И.", email="gym40plan@gmail.com", password=generate_password_hash("123", method='sha256'),  uclass="10А", br_id=1, br_code="code1"))
+    db.session.add(User(name=INIT_USER_NAME, email=INIT_USER_EMAIL, password=generate_password_hash(INIT_USER_PASSWORD, method='sha256'),  uclass=INIT_USER_CLASS, br_id=INIT_USER_BRID, br_code=INIT_USER_BRCODE))
     db.session.commit()
 
     return 'init done.'
@@ -346,4 +354,5 @@ def check_code(id, code):
 if __name__ == '__main__':
     # '0.0.0.0' = 127.0.0.1 i.e. localhost
     # port = 5000 : we can modify it for localhost
-    app.run(host='0.0.0.0', port=5000, debug=True) # local webserver : app.run()
+    #app.run(host='0.0.0.0', port=5000, debug=True) # local webserver : app.run()
+    app.run()
