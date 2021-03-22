@@ -85,7 +85,7 @@ class User(UserMixin, db.Model):
            'bracelet_id': self.bracelet_id,
            #'bracelet_code': self.bracelet_code,
            'temperature': self.temperature,
-           'time': self.time
+           'time': self.time.strftime("%d-%m %H:%M")
        }
 
     def __repr__(self):
@@ -108,7 +108,7 @@ class Tempdata(db.Model):
        """Return object data in easily serializable format"""
        return {
            'id'         : self.bracelet_id,
-           'time': self.time,
+           'time': self.time.strftime("%d-%m %H:%M"),
            'temperature'  : self.temperature
        }
 
