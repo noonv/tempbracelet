@@ -18,7 +18,8 @@ from flask_sqlalchemy import SQLAlchemy
 
 from flask_login import UserMixin, LoginManager, login_user, login_required, current_user, logout_user
 
-from datetime import datetime, timezone
+from datetime import datetime
+from pytz import timezone
 
 from werkzeug.security import generate_password_hash, check_password_hash
 
@@ -44,6 +45,8 @@ INIT_USER_CLASS = os.environ.get("INIT_USER_CLASS")
 INIT_USER_BRID = int(os.environ.get("INIT_USER_BRID"))
 INIT_USER_BRCODE = os.environ.get("INIT_USER_BRCODE")
 
+TIME_ZONE = os.environ.get("TIME_ZONE", 'Europe/Kaliningrad')
+
 #app.config.from_pyfile('settings.cfg')
 db = SQLAlchemy(app)
 
@@ -58,7 +61,7 @@ class User(UserMixin, db.Model):
     bracelet_id = db.Column(db.Integer, default=0)
     bracelet_code = db.Column(db.String(50), default="")
     temperature = db.Column(db.Float, default=0)
-    time = db.Column(db.DateTime, nullable=False, default=datetime.now)
+    time = db.Column(db.DateTime, nullable=False, default=datetime.now(timezone('UTC')).astimezone(timezone(TIME_ZONE)))
 
     def __init__(self, name=None, email=None, password=None, uclass="", br_id=0, br_code="", temperature=0):
         self.name = name
@@ -89,7 +92,7 @@ class Tempdata(db.Model):
     __tablename__ = 'tempdata'
     id = db.Column(db.Integer, primary_key=True)
     bracelet_id = db.Column(db.Integer, nullable=False)
-    time = db.Column(db.DateTime, nullable=False, default=datetime.now)
+    time = db.Column(db.DateTime, nullable=False, default=datetime.now(timezone('UTC')).astimezone(timezone(TIME_ZONE)))
     temperature = db.Column(db.Float, nullable=False)
 
     def __init__(self, br_id=None, time=None, temperature=None):
@@ -154,7 +157,7 @@ def profile_post():
     user.user_class = user_class
     user.bracelet_id = bracelet_id
     user.bracelet_code = bracelet_code
-    user.time = datetime.now()
+    user.time = datetime.now(timezone('UTC')).astimezone(timezone(TIME_ZONE))
     db.session.commit()
 
     flash('Данные обновлены')
@@ -284,7 +287,7 @@ def api_update():
         print('Code OK')
 
         user.temperature = temperature
-        user.time = datetime.now()
+        user.time = datetime.now(timezone('UTC')).astimezone(timezone(TIME_ZONE))
 
         db.session.add(Tempdata(br_id=int(id), time=user.time, temperature=temperature))
         db.session.commit()
