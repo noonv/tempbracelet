@@ -296,11 +296,13 @@ def api_update():
         db.session.add(Tempdata(br_id=int(id), time=user.time, temperature=temperature))
         db.session.commit()
 
+        print(user.time)
+
         if float(temperature) > TEMPERATURE_THRESHOLD:
             print("!!! Alert Temperature !!!")
             # TBD
 
-        temps = Tempdata.query.all()
+        #temps = Tempdata.query.all()
         #print(temps)
 
         return 'update ' + 'id= ' + str(id) + ' code= ' + code + ' temperature= '+temperature
