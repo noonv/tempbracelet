@@ -47,7 +47,7 @@ INIT_USER_BRCODE = os.environ.get("INIT_USER_BRCODE")
 
 TIME_ZONE = os.environ.get("TIME_ZONE", 'Europe/Kaliningrad')
 
-os.environ['TZ'] = 'TIME_ZONE'
+os.environ['TZ'] = TIME_ZONE
 time.tzset()
 
 #app.config.from_pyfile('settings.cfg')
