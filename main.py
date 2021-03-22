@@ -291,7 +291,7 @@ def api_update():
         print('Code OK')
 
         user.temperature = temperature
-        user.time = datetime.now(timezone('UTC')).astimezone(timezone(TIME_ZONE))
+        user.time = datetime.now()#timezone('UTC')).astimezone(timezone(TIME_ZONE))
 
         db.session.add(Tempdata(br_id=int(id), time=user.time, temperature=temperature))
         db.session.commit()
