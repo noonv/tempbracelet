@@ -1,8 +1,8 @@
 
 const DEBUG = true;
 
-var currentBraceleteId = null;
-const timerDelayMS = 3000;
+var currentBraceleteId = 1;
+const timerDelayMS = 45000;
 
 var log = function (x) {
   if (DEBUG) {
@@ -121,8 +121,9 @@ var getUserTemperatureData = function (id) {
 };
 
 function myTimer() {
-  log("onTimer...")
-  //getUserTemperatureData(currentBraceleteId);
+  log("onTimer...");
+  getUsers();
+  getUserTemperatureData(currentBraceleteId);
 }
 
 window.onload = function () {
