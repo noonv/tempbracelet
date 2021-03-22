@@ -46,7 +46,7 @@ INIT_USER_BRCODE = os.environ.get("INIT_USER_BRCODE")
 
 TIME_ZONE = os.environ.get("TIME_ZONE", 'Europe/Kaliningrad')
 
-DAYS_TO_STORE = os.environ.get("DAYS_TO_STORE", 2)
+DAYS_TO_STORE = int(os.environ.get("DAYS_TO_STORE", 2))
 
 os.environ['TZ'] = TIME_ZONE
 time.tzset()
