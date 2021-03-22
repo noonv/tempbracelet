@@ -49,6 +49,7 @@ TIME_ZONE = os.environ.get("TIME_ZONE", 'Europe/Kaliningrad')
 
 os.environ['TZ'] = TIME_ZONE
 time.tzset()
+print(datetime.now())
 
 #app.config.from_pyfile('settings.cfg')
 db = SQLAlchemy(app)
