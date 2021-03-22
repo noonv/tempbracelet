@@ -6,7 +6,7 @@ server for braslet_tmp
 
 '''
 
-import os
+import os, time
 from flask import Flask
 from flask import request
 from flask import render_template
@@ -46,6 +46,9 @@ INIT_USER_BRID = int(os.environ.get("INIT_USER_BRID"))
 INIT_USER_BRCODE = os.environ.get("INIT_USER_BRCODE")
 
 TIME_ZONE = os.environ.get("TIME_ZONE", 'Europe/Kaliningrad')
+
+os.environ['TZ'] = 'TIME_ZONE'
+time.tzset()
 
 #app.config.from_pyfile('settings.cfg')
 db = SQLAlchemy(app)
