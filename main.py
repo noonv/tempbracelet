@@ -18,7 +18,7 @@ from flask_sqlalchemy import SQLAlchemy
 
 from flask_login import UserMixin, LoginManager, login_user, login_required, current_user, logout_user
 
-from datetime import datetime
+from datetime import datetime, timedelta
 
 from werkzeug.security import generate_password_hash, check_password_hash
 
@@ -45,6 +45,8 @@ INIT_USER_BRID = int(os.environ.get("INIT_USER_BRID"))
 INIT_USER_BRCODE = os.environ.get("INIT_USER_BRCODE")
 
 TIME_ZONE = os.environ.get("TIME_ZONE", 'Europe/Kaliningrad')
+
+DAYS_TO_STORE = os.environ.get("DAYS_TO_STORE", 2)
 
 os.environ['TZ'] = TIME_ZONE
 time.tzset()
@@ -293,9 +295,14 @@ def api_update():
         user.time = datetime.now()
 
         db.session.add(Tempdata(br_id=int(id), time=user.time, temperature=temperature))
-        db.session.commit()
 
         print(user.time)
+        print('Clear old data...')
+        # delete old data
+        del_data = datetime.today() - timedelta(days=DAYS_TO_STORE)
+        Tempdata.query.filter(Tempdata.time < del_data).delete(synchronize_session=False)
+
+        db.session.commit()
 
         if float(temperature) > TEMPERATURE_THRESHOLD:
             print("!!! Alert Temperature !!!")
