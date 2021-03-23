@@ -129,6 +129,7 @@ def load_user(user_id):
 
 
 @app.route('/profile')
+@login_required
 def profile():
     if not current_user.is_active:
         return redirect(url_for('login'))
@@ -138,6 +139,7 @@ def profile():
         
 
 @app.route('/profile', methods=['POST'])
+@login_required
 def profile_post():
     if not current_user.is_active:
         return redirect(url_for('login'))
@@ -224,6 +226,7 @@ def signup_post():
     return redirect(url_for('login'))    
 
 @app.route('/logout')
+@login_required
 def logout():
     logout_user()
     return redirect(url_for('index'))
@@ -253,6 +256,7 @@ def index():
     return render_template('index.html', TEMPERATURE_THRESHOLD=TEMPERATURE_THRESHOLD)
 
 @app.route('/users')
+@login_required
 def users():
     if not current_user.is_active:
         return redirect(url_for('login'))
@@ -262,6 +266,7 @@ def users():
     return render_template('users.html', TEMPERATURE_THRESHOLD=TEMPERATURE_THRESHOLD, users=users)
 
 @app.route('/reports')
+@login_required
 def reports():
     if not current_user.is_active:
         return redirect(url_for('login'))
@@ -314,6 +319,7 @@ def api_update():
         return 'update ' + 'id= ' + str(id) + ' code= ' + code + ' temperature= '+temperature
 
 @app.route('/api/data')
+@login_required
 def api_data():
     id = request.args.get('id', '')
 
@@ -327,6 +333,7 @@ def api_data():
     return jsonify(data = [i.serialize for i in temps])
 
 @app.route('/api/users')
+@login_required
 def api_users():
     users = User.query.all()
     print(users)
