@@ -272,6 +272,10 @@ def reports():
         return redirect(url_for('login'))
     return render_template('reports.html')
 
+@app.errorhandler(404)
+def not_found(error):
+    return render_template('error.html', error=404), 404    
+
 @app.route('/api/update', methods=['GET', 'POST'])
 def api_update():
     if request.method == 'POST':
