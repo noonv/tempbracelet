@@ -330,7 +330,7 @@ def api_data():
     if id == '':
         return 'No id!'
     
-    temps = Tempdata.query.filter(Tempdata.bracelet_id == int(id)).all()
+    temps = Tempdata.query.filter(Tempdata.bracelet_id == int(id)).order_by(Tempdata.time.asc()).all()
     #print(temps)
 
     #return 'data'
